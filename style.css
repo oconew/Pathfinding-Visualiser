@@ -2,7 +2,11 @@
     --outline-color: #000001;
 }
 
-     
+.navbar {
+    height: 5%;
+    padding-bottom: 5%;
+}
+
 .grid {
 display: grid;
 grid-template-columns: repeat(auto-fill, 50px);
@@ -26,10 +30,10 @@ grid-column: 1 / 1;
     border: 1px solid var(--outline-color);
     margin-top: -1px;
     margin-left: -1px;
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
 }
 
 .wall {
@@ -41,27 +45,31 @@ grid-column: 1 / 1;
 }
 
 .open {
-    background-color: #41658A;
+    background-color: #264027;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
 }
 
 .closed {
     background-color: #899E8B;
-    -webkit-transition: all 1s linear;
-    -moz-transition: all 1s linear;
-    -o-transition: all 1s linear;
-    transition: all 1s linear;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2 s linear;
 }
 
 .path {
     background-color: #F9DC5C;
-    -webkit-transition: all 0.11s linear;
-    -moz-transition: all 0.1s linear;
-    -o-transition: all 0.11s linear;
-    transition: all 0.1s linear;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
 }
 
 .start {
-    background-color: #5762D5;
+    background-color: #41658A;
     -webkit-transition: all 0s linear;
     -moz-transition: all 0s linear;
     -o-transition: all 0s linear;
@@ -69,7 +77,7 @@ grid-column: 1 / 1;
 }
 
 .target {
-    background-color: #5762D5;
+    background-color: #41658A;
     -webkit-transition: all 0s linear;
     -moz-transition: all 0s linear;
     -o-transition: all 0s linear;
