@@ -1,16 +1,16 @@
 :root {
-    --outline-color: #000001;
+    --outline-color: #9DB5B2;
+    --scale: 25px;
 }
 
 .navbar {
-    height: 5%;
-    padding-bottom: 5%;
+    padding-bottom: 1%;
 }
 
 .grid {
 display: grid;
-grid-template-columns: repeat(auto-fill, 50px);
-grid-auto-rows:  50px;
+grid-template-columns: repeat(auto-fill, var(--scale));
+grid-auto-rows:  var(--scale);
 }
 
 .grid::before {
@@ -30,6 +30,9 @@ grid-column: 1 / 1;
     border: 1px solid var(--outline-color);
     margin-top: -1px;
     margin-left: -1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     -webkit-transition: all 0.1s linear;
     -moz-transition: all 0.1s linear;
     -o-transition: all 0.1s linear;
@@ -46,10 +49,10 @@ grid-column: 1 / 1;
 
 .open {
     background-color: #264027;
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
 }
 
 .closed {
@@ -57,7 +60,7 @@ grid-column: 1 / 1;
     -webkit-transition: all 0.2s linear;
     -moz-transition: all 0.2s linear;
     -o-transition: all 0.2s linear;
-    transition: all 0.2 s linear;
+    transition: all 0.2s linear;
 }
 
 .path {
@@ -76,6 +79,7 @@ grid-column: 1 / 1;
     transition: all 0s linear;
 }
 
+
 .target {
     background-color: #41658A;
     -webkit-transition: all 0s linear;
@@ -84,4 +88,57 @@ grid-column: 1 / 1;
     transition: all 0s linear;
 }
 
+p {
+    color: white;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
+.h {
+    color: var(--outline-color);
+    font-size: 0px;
+    /* font-size: small; */
+}
+
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-button {
+    background-color: #3498DB;
+    color: white;
+    min-width: 160px;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown button:hover {background-color: #ddd;}
+  
+  .show {display: block;}

@@ -1,19 +1,17 @@
-const ANIM_DELAY = 20
-const scale = 50  // px side length of each cell
-const parent = document.getElementById('grid')
-const WIDTH = Math.floor((window.innerWidth/100*100)/scale), HEIGHT = Math.floor((window.innerHeight/100*95)/scale)  // Width and Height of map
-const start = {x: 0, y:0} // Co ords for starting node
-const target = {x: Math.floor(WIDTH/2), y: Math.floor(HEIGHT/2)}  // Co ords for target node
-let map = []
-let Q = []  // Array containing all nodes in the set
-let end
+const ANIM_DELAY = 20, scale = 25  // px side length of each cell
+let isToggling = false
+const WIDTH = Math.floor((window.innerWidth/100*100)/scale), HEIGHT = Math.floor((window.innerHeight/100*94)/scale)  // Width and Height of map
+const start = {x: 4, y:Math.floor(HEIGHT/2)}, target = {x: Math.floor(WIDTH-1), y: Math.floor(HEIGHT/2)}
+let map = [], Q = []  // Array containing all nodes in the set
+let algorithm = 'Dijkstra'
 
+
+/**
+ * The class representing a node on which pathfinding algorithms are executed.
+ * @param x y co-ordinate of Node on grid.
+ * @param y x co-ordinate of Node on grid.
+ */
 class Node {
-    /**
-     * The class representing a node on which pathfinding algorithms are executed
-     * @param x y co-ordinate of Node on grid
-     * @param y x co-ordinate of Node on grid
-     */
     constructor(x, y) {
         this.x = x
         this.y = y
@@ -24,7 +22,7 @@ class Node {
         this.h = (this.x - target.x)**2 + (this.y-target.y)**2  // h is the estimated distance to target
         this.prev = undefined
         map[[x, y]] = this
-        document.getElementById('grid').innerHTML += `<div class="cell empty" id="${x}, ${y}" onclick="click_cell(this)" oncontectmenu="run()">${this.h}</div>`
+        document.getElementById('grid').innerHTML += `<div class="cell empty" id="${x}, ${y}" onmousedown="enable_toggle(this)" onmouseover="toggle_cell(this)" onmouseup="disable_toggle()"><p class="h">${this.h}</p></div>`
     }
 
     get_neighbours() {
@@ -58,6 +56,9 @@ class Node {
     }
 }
 
+/**
+ * Create a grid of nodes with size [WIDTH, HEIGHT].
+ */
 function initialise_grid() {
     let node
     for (let y=0; y<HEIGHT; y++) {
@@ -68,6 +69,9 @@ function initialise_grid() {
     }
 }
 
+/**
+ * Assign each cell in the html grid with their corresponding classes.
+ */
 function draw_grid() {
     for (let x = 0; x<WIDTH; x++) {
         for (let y = 0; y<HEIGHT; y++) {
@@ -78,10 +82,12 @@ function draw_grid() {
                     cell.className = "cell wall"
                     break;
                 case 'S':
-                    cell.className = "cell start"
+                    cell.className = "cell start";
+                    cell.innerHTML = '<p>S</p>';
                     break;
                 case 'T':
                     cell.className = "cell target"
+                    cell.innerHTML = '<p>T</p>';
                     break;
                 case 'p':
                     cell.className = "cell path"
@@ -90,10 +96,7 @@ function draw_grid() {
                     cell.className = "cell"
                     break;
             }
-            // if(node.dist < Infinity && Number.isInteger(node.weight)) {
-            //     cell.className = "cell closed"
-            // }
-            if(isFinite(node.dist) && Number.isInteger(node.weight)) {
+            if(isFinite(node.dist) && Number.isInteger(node.weight) && node.weight !== -1) {
                 if(Q.includes(node))cell.className = "cell open"
                 else {cell.className = "cell closed"}
             }
@@ -101,19 +104,22 @@ function draw_grid() {
     }
 }
 
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-  }
-  
-function changeClass(cell, new_class) {
-    cell.className = new_class
+/**
+* Reconstruct the path from target.
+ * @param {Node} target The node from which the path will be reconstructed.
+ */
+function draw_path(target) { 
+    while (target.prev !== undefined && target.prev.weight !== 'S') {
+        target.prev.weight = 'p'
+        target = target.prev
+    }
 }
 
-function dijkstras() {
+/**
+ * Perform dijkstra's search algorithm on the grid of nodes. For a given source node in the graph, the 
+ * algorithm finds the shortest path between that node and every other until the target node is reached.
+ */
+function dijkstras() { 
     let current, alt, cell
     draw_grid()
     map[[start.x, start.y]].dist = 0  // start node has distance of 0
@@ -137,13 +143,17 @@ function dijkstras() {
     draw_path(map[[target.x, target.y]])
 }
 
+/** 
+ * Performs A* search on the grid of nodes until target is reached. A* algorithm introduces a heuristic into a 
+ * regular graph-searching algorithm, essentially planning ahead at each step so a more optimal decision is made.
+ */
 function a_star() {
     let current, alt
     map[[start.x, start.y]].dist = 0
     draw_grid()
     if (Q.length > 0) {
-        Q.sort((a, b) => (a.dist + a.h > b.dist + b.h) ? 1 : -1) // sort open array by fScore
         current = Q.shift()  // evaluate node with lowest distance
+        Q.sort((a, b) => (a.dist + a.h > b.dist + b.h) ? 1 : -1) // sort open array by fScore
         if (current.weight ===  'T') {return {current}}
         for (let neighbour of current.get_neighbours()) {
         if (neighbour !== undefined && neighbour.weight !== -1 && Q.includes(neighbour)) {
@@ -160,35 +170,62 @@ function a_star() {
     draw_path(map[[target.x, target.y]])
 }
 
+/**
+ * Start drawing walls in cells the mouse enters.
+ * @param {HTMLDivElement} div The cell which has been clicked.
+ */
+function enable_toggle(div) {
+    isToggling = true
+    toggle_cell(div) // toggle the cell that was clicked
+}
 
-function draw_path(current) {
-    // let current = Q[coord_to_Q(target.x, target.y)]
-    while (current.prev !== undefined && current.prev.weight !== 'S') {
-        current.prev.weight = 'p'
-        current = current.prev
+/**
+ * Stop drawing walls under the mouse.
+ */
+function disable_toggle() {
+    isToggling = false
+}
+
+/**
+ * Toggles the cell under the mouse if the mouse is down.
+ * @param {HTMLDivElement} div The cell to be toggled.
+ */
+function toggle_cell(div) {
+    if (isToggling) {
+        let coords = div.id.split(', ')
+        cell = map[[coords[0], coords[1]]]
+        if(cell.weight === -1) {cell.weight=0}
+        else if (cell.weight !== 'T' && cell.weight !== 'S')cell.weight = -1
+        draw_grid()
     }
 }
 
-function click_cell(div) {
-    let coords = div.id.split(', ')
-    cell = map[[coords[0], coords[1]]]
-    if(cell.weight === -1) {cell.weight=0}
-    else if (cell.weight === 'T' || cell.weight === 'S') {cell.weight = cell.weight}
-    else {cell.weight = -1}
-    if(cell.weight === 'T') {
-        run()
-    }
-    //draw_path(map[[target.x, target.y]])
+/**
+ * Change the current algorithm to given new algorithm.
+ * @param {string} algo new algorithm 
+ */
+function setAlgorithm(algo) {
+    algorithm = algo
+}
+
+/**
+ * Execute and visualise the current search algorithm.
+ */
+function run() {
+    switch (algorithm) {
+        case 'Dijkstra':
+            dijkstras()
+            break;
+        case 'A*':
+            a_star()
+            break;
+        default:
+            dijkstras()
+            break;
+    }  
     draw_grid()
 }
 
 initialise_grid()
 draw_grid()
-function run() {
-
-    a_star()    
-    draw_grid()
-}
-
-// n
 

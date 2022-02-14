@@ -7,11 +7,42 @@
 </head>
 <body>
 
-<div class="navbar">
     
-</div>
+    <div class="navbar">
+        <div class="dropdown">
+            <button onclick="dropdown()" class="dropbtn">Algorithm</button>
+            <div id="dropdown" class="dropdown-content">
+                <button onclick="setAlgorithm('Dijkstra')" class="dropdown-button">Dijkstra's</button>
+                <button onclick="setAlgorithm('A*')" class="dropdown-button">A*</button>
+            </div>
+        </div>
 
-<main class="grid" id="grid" onkeypress="run()">
+        <button onclick="run()" class="dropbtn">Run</button>
+        
+        <script>
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function dropdown() {
+            document.getElementById("dropdown").classList.toggle("show");
+        }
+        
+        // Close the dropdown if the user clicks outside of it
+        //   window.onclick = function(event) {
+        //     if (!event.target.matches('.dropbtn')) {
+        //       var dropdowns = document.getElementsByClassName("dropdown-content");
+        //       var i;
+        //       for (i = 0; i < dropdowns.length; i++) {
+        //         var openDropdown = dropdowns[i];
+        //         if (openDropdown.classList.contains('show')) {
+        //           openDropdown.classList.remove('show');
+        //         }
+        //       }
+        //     }
+        //   }
+        </script>
+    </div>
+    
+<main class="grid" id="grid">
     <!-- <div class="cell empty"></div> -->
 
 </main>
