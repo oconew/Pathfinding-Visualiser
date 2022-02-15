@@ -170,7 +170,10 @@ function toggle_cell(div) {
     }
 }
 
-
+/**
+ * Sets the start node to the cell which has been selected.
+ * @param  {HTMLDivElement} div The selected div
+ */
 function set_start(div) {
     let coords = div.id.split(', ')
     cell = map[[coords[0], coords[1]]]
@@ -181,6 +184,10 @@ function set_start(div) {
     draw_grid()
 }
 
+/**
+ * Sets the target node to the cell which has been selected.
+ * @param  {HTMLDivElement} div The selected div
+ */
 function set_target(div) {
     let coords = div.id.split(', ')
     cell = map[[coords[0], coords[1]]]
@@ -190,8 +197,6 @@ function set_target(div) {
     target = {x: coords[0], y: coords[1]}
     draw_grid()
 }
-
-
 
 /**
  * Execute and visualise the current search algorithm.

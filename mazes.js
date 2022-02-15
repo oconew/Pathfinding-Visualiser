@@ -1,3 +1,6 @@
+/**
+ * Fill all walls on the grid with an even x or y coord.
+ */
 function fill_walls() {
     for (let x=0; x<WIDTH; x++) {
         for (let y=0; y<HEIGHT; y++) {
@@ -6,6 +9,10 @@ function fill_walls() {
     }
 }
 
+/**
+ * Recuresively generate a depth first maze.
+ * @param  {Node} cell The cell currently being visited.
+ */
 function depth_first_maze(cell) {
     cell.visited = true
     for (let neighbour of cell.get_maze_neighbours()) {
@@ -16,11 +23,18 @@ function depth_first_maze(cell) {
     }
 }
 
+/**
+ * Update the maze algorithm to be used.
+ * @param  {string} new_maze The new maze algorithm.
+ */
 function set_maze(new_maze) {
     maze = new_maze
     document.getElementById("maze_dropdown").classList.toggle("show");
 }
 
+/**
+ * Use the current maze generation algorithm to generate a maze on the grid.
+ */
 function generate_maze() {
     fill_walls()
     switch (maze) {
