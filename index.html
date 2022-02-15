@@ -9,36 +9,29 @@
 
     
     <div class="navbar">
-        <div class="dropdown">
-            <button onclick="dropdown()" class="dropbtn">Algorithm</button>
-            <div id="dropdown" class="dropdown-content">
-                <button onclick="setAlgorithm('Dijkstra')" class="dropdown-button">Dijkstra's</button>
-                <button onclick="setAlgorithm('A*')" class="dropdown-button">A*</button>
-            </div>
+        <button onclick="dropdown()" class="dropbtn">Algorithm</button>
+        <div id="dropdown" class="dropdown-content">
+            <button onclick="setAlgorithm('Dijkstra')" class="dropdown-button">Dijkstra's</button>
+            <br>
+            <button onclick="setAlgorithm('A*')" class="dropdown-button">A*</button>
         </div>
-
         <button onclick="run()" class="dropbtn">Run</button>
-        
+        <button onclick="maze_dropdown()" class="dropbtn">Maze</button>
+        <div id="maze_dropdown" class="dropdown-content" style="padding-left: 16%; background: none; box-shadow: none;">
+            <button onclick="set_maze('Depth First')" class="dropdown-button">Depth First Maze</button>
+        </div>
+        <button onclick="generate_maze()" class="dropbtn">Generate Maze</button>
         <script>
         /* When the user clicks on the button, 
         toggle between hiding and showing the dropdown content */
         function dropdown() {
             document.getElementById("dropdown").classList.toggle("show");
         }
-        
-        // Close the dropdown if the user clicks outside of it
-        //   window.onclick = function(event) {
-        //     if (!event.target.matches('.dropbtn')) {
-        //       var dropdowns = document.getElementsByClassName("dropdown-content");
-        //       var i;
-        //       for (i = 0; i < dropdowns.length; i++) {
-        //         var openDropdown = dropdowns[i];
-        //         if (openDropdown.classList.contains('show')) {
-        //           openDropdown.classList.remove('show');
-        //         }
-        //       }
-        //     }
-        //   }
+
+        function maze_dropdown() {
+            document.getElementById("maze_dropdown").classList.toggle("show");
+        }
+
         </script>
     </div>
     
@@ -47,6 +40,8 @@
 
 </main>
 
+<script src="mazes.js"></script>
+<script src="algorithms.js"></script>
 <script src="main.js"></script>
 
 </body>
