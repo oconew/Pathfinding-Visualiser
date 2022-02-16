@@ -1,7 +1,7 @@
 // Initialise global variables
 let ANIM_DELAY = 20, scale = 45  // px side length of each cell
 let isToggling = false
-let WIDTH = Math.floor((window.innerWidth/100*95)/scale), HEIGHT = Math.floor((window.innerHeight/100*95)/scale)  // Width and Height of map
+let WIDTH = Math.floor((window.innerWidth/100*100)/scale), HEIGHT = Math.floor((window.innerHeight/100*95)/scale)  // Width and Height of map
 // if (WIDTH%2 !== 0)WIDTH -=1
 // if (HEIGHT%2 !== 0)HEIGHT -=1
 
