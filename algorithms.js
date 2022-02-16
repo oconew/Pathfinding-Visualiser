@@ -4,7 +4,7 @@
  */
  function setAlgorithm(algo) {
     algorithm = algo
-    dropdown()
+    document.getElementById('dropdown').classList.toggle('show')
 }
 
 /**

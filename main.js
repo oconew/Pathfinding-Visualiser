@@ -1,11 +1,11 @@
 // Initialise global variables
-const ANIM_DELAY = 20, scale = 25  // px side length of each cell
+let ANIM_DELAY = 20, scale = 45  // px side length of each cell
 let isToggling = false
-let WIDTH = Math.floor((window.innerWidth/100*100)/scale), HEIGHT = Math.floor((window.innerHeight/100*95)/scale)  // Width and Height of map
+let WIDTH = Math.floor((window.innerWidth/100*95)/scale), HEIGHT = Math.floor((window.innerHeight/100*95)/scale)  // Width and Height of map
 // if (WIDTH%2 !== 0)WIDTH -=1
 // if (HEIGHT%2 !== 0)HEIGHT -=1
 
-let start = {x: 4, y:Math.floor(HEIGHT/2)}, target = {x: Math.floor(WIDTH-1), y: Math.floor(HEIGHT/2)}
+let start = {x: 0, y:Math.floor(HEIGHT/2)}, target = {x: Math.floor(WIDTH-1), y: Math.floor(HEIGHT/2)}
 let map = [], Q = []  // Array containing all nodes in the set
 let algorithm = 'Dijkstra'
 let maze = undefined
@@ -86,12 +86,28 @@ class Node {
  */
 function initialise_grid() {
     let node
+    Q = []
     for (let y=0; y<HEIGHT; y++) {
         for (let x=0; x<WIDTH; x++) {
-            node = new Node(x, y)
-            Q.push(node)
+            if (map[[x, y]] === undefined)node = new Node(x, y)
+
+            else if (map[[x, y]].weight === 'S' && map[[x, y]].weight === 'T') {
+                node = map[[x, y]]
+                node.dist = Infinity
+                node.prev = undefined
+            }
+            
+            else {
+                node = map[[x, y]]
+                node.dist = Infinity
+                node.prev = undefined
+                node.weight = 0
+                node.visited = false
+            }
+            if (!Q.includes(node))Q.push(node)
         }
     }
+    draw_grid()
 }
 
 /**
@@ -178,7 +194,7 @@ function set_start(div) {
     let coords = div.id.split(', ')
     cell = map[[coords[0], coords[1]]]
     cell.weight = 'S'
-    map[[start.x, start.y]].weight = -1
+    map[[start.x, start.y]].weight = 0
     document.getElementById(`${start.x}, ${start.y}`).innerHTML = ""
     start = {x: coords[0], y: coords[1]}
     draw_grid()
@@ -192,10 +208,18 @@ function set_target(div) {
     let coords = div.id.split(', ')
     cell = map[[coords[0], coords[1]]]
     cell.weight = 'T'
-    map[[target.x, target.y]].weight = -1
+    map[[target.x, target.y]].weight = 0
     document.getElementById(`${target.x}, ${target.y}`).innerHTML = ""
     target = {x: coords[0], y: coords[1]}
     draw_grid()
+}
+/**
+ * Set the animation speed
+ * @param  {number} speed New animation delay in milliseconds
+ */
+function set_speed(speed) {
+    ANIM_DELAY = speed
+    document.getElementById('speed_dropdown').classList.toggle("show");
 }
 
 /**

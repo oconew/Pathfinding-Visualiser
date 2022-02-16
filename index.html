@@ -9,30 +9,46 @@
 
     
     <div class="navbar">
-        <button onclick="dropdown()" class="dropbtn">Algorithm</button>
-        <div id="dropdown" class="dropdown-content">
+
+        <button onclick="dropdown('dropdown')" class="dropbtn" id="algo_button">Algorithm</button>
+        <div id="dropdown" class="dropdown-content" style="background: none; box-shadow: none;">
             <button onclick="setAlgorithm('Dijkstra')" class="dropdown-button">Dijkstra's</button>
             <br>
             <button onclick="setAlgorithm('A*')" class="dropdown-button">A*</button>
         </div>
-        <button onclick="run()" class="dropbtn">Run</button>
-        <button onclick="maze_dropdown()" class="dropbtn">Maze</button>
-        <div id="maze_dropdown" class="dropdown-content" style="padding-left: 16%; background: none; box-shadow: none;">
+
+        <button onclick="dropdown('maze_dropdown')" class="dropbtn" id='maze_button'>Maze Algorithm</button>
+        <div id="maze_dropdown" class="dropdown-content">
             <button onclick="set_maze('Depth First')" class="dropdown-button">Depth First Maze</button>
         </div>
-        <button onclick="generate_maze()" class="dropbtn">Generate Maze</button>
+
+        <button onclick="generate_maze()" class="dropbtn" id="other_maze_button">Generate Maze</button>
+
+        <button onclick="dropdown('speed_dropdown')" class="dropbtn">Set Speed</button>
+        <div id="speed_dropdown" class="dropdown-content">
+            <button onclick="set_speed(5)" class="dropdown-button">Speedy</button>
+            <br>
+            <button onclick="set_speed(15)" class="dropdown-button">Medium</button>
+            <br>
+            <button onclick="set_speed(30)" class="dropdown-button">Slow</button>
+        </div>
+
+        <button onclick="initialise_grid()" class="dropbtn">Clear Grid</button>
+
+        <button onclick="run()" class="dropbtn">Run</button>
+
         <script>
-        /* When the user clicks on the button, 
-        toggle between hiding and showing the dropdown content */
-        function dropdown() {
-            document.getElementById("dropdown").classList.toggle("show");
+        /* When the user clicks on the button, toggle between hiding and showing the dropdown content of given dropdown*/
+        function dropdown(id) {
+            document.getElementById(id).classList.toggle("show");
+            let w=document.getElementById('algo_button').offsetWidth
+            document.getElementById('maze_dropdown').setAttribute("style","padding-left:"+w+"px; background: none; box-shadow: none;");
+
+            w=document.getElementById('algo_button').offsetWidth + document.getElementById('maze_button').offsetWidth + document.getElementById('other_maze_button').offsetWidth
+            document.getElementById('speed_dropdown').setAttribute("style","padding-left:"+w+"px; background: none; box-shadow: none;");
         }
 
-        function maze_dropdown() {
-            document.getElementById("maze_dropdown").classList.toggle("show");
-        }
-
-        </script>
+        </script> 
     </div>
     
 <main class="grid" id="grid">
